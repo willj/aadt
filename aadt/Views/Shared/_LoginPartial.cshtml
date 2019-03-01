@@ -1,0 +1,21 @@
+@using System.Security.Principal
+@using System.Security.Claims
+
+@if (User.Identity.IsAuthenticated)
+{
+    var identity = User.Identity as ClaimsIdentity;
+    var name = identity.Claims.FirstOrDefault(c => c.Type == "name")?.Value;
+
+    var roles = identity.Claims.Where(c => c.Type == "http://schemas.microsoft.com/ws/2008/06/identity/claims/role").Select(role => role.Value).ToList();
+
+    <ul class="nav navbar-nav navbar-right">
+        <li class="navbar-text">@name [@roles.FirstOrDefault()]</li>
+        <li><a asp-area="AzureAD" asp-controller="Account" asp-action="SignOut">Sign out</a></li>
+    </ul>
+}
+else
+{
+    <ul class="nav navbar-nav navbar-right">
+        <li><a asp-area="AzureAD" asp-controller="Account" asp-action="SignIn">Sign in</a></li>
+    </ul>
+}
