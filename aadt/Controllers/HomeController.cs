@@ -22,6 +22,12 @@ namespace aadt.Controllers
             return View();
         }
 
+        [Authorize]
+        public IActionResult Authorized()
+        {
+            return View();
+        }
+
         [Authorize(Roles = "SiteManager")]
         public IActionResult SiteManager()
         {
